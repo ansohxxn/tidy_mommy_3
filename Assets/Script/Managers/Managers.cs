@@ -47,7 +47,7 @@ public class Managers : MonoBehaviour
             s_instance._resource.Init();
             s_instance._pool.Init();
             s_instance._game.Init();
-            //s_instance._audio.Init();
+            s_instance._audio.Init();
 
             DontDestroyOnLoad(go);
         }
