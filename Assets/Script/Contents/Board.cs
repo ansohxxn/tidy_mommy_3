@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
 
     int blockColorNum = 0;
     int blockSpecialNum = 0;
-    const float blockColorProb = 0.95f;
+    const float blockColorProb = 0.98f;
     List<int> randomBox = new List<int>();
 
     [SerializeField] ScoreText score_text;
