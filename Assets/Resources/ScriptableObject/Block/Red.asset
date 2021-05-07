@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14689c305528b8e48a8db94131ae7234, type: 3}
+  m_Name: Red
+  m_EditorClassIdentifier: 
+  blockType: 0
+  blockID: 0
+  itemImage: {fileID: -8800929206216334800, guid: 74415d192e8f52b48a05e28c55d26b5a,
+    type: 3}
+  itemSelectedImage: {fileID: 4769134837912430429, guid: e9d6a8c6d069f034e81365a8efeddd76,
+    type: 3}
+  score: 1000
+  poolNum: 20
