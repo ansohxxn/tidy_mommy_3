@@ -10,6 +10,8 @@
 
 ![image](https://user-images.githubusercontent.com/42318591/117399805-4fffe100-af3c-11eb-8b68-f712c2314d69.png)
 
+---
+
 ## 📌 서론
 
 > 아직 미완성 상태입니다. 
