@@ -41,6 +41,8 @@ public class Managers : MonoBehaviour
                 go = new GameObject { name = "@Managers" };
                 go.AddComponent<Managers>();
             }
+            else return;
+
             s_instance = go.GetComponent<Managers>();
             s_instance._audio.audioSource = go.AddComponent<AudioSource>();
 

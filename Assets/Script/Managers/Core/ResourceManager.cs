@@ -106,8 +106,6 @@ public class ResourceManager
 
     public void Init()
     {
-        if (atlas != null && color_block_data.Count > 0 && special_block_data.Count > 0) return;
-
         Load_Sprite();
         Load_ScriptableObject();
         Load_Prefab();

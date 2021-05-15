@@ -13,8 +13,6 @@ public class PoolManager
 
     public void Init()
     {
-        if (Root != null) return;
-
         Prefab = Managers.Resource.GetBlockPrefab();
         Root = new GameObject().transform;
         Root.name = "@Pool_Root";

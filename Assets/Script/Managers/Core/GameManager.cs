@@ -8,7 +8,6 @@ public class GameManager
     const float startSeconds = 60f;
 
     public int score;
-    public int combo;
     public int level = (int)Define.ColorBlock.Blue;
     public Define.GameStateScore gameState = Define.GameStateScore.Normal;
 

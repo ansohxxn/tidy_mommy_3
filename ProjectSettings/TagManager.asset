@@ -50,3 +50,6 @@ TagManager:
   - name: Block
     uniqueID: 1491449179
     locked: 0
+  - name: FloatingText
+    uniqueID: 1065795503
+    locked: 0

@@ -9,7 +9,7 @@ public class Board : MonoBehaviour
 
     float rowGenerateTime = 4.0f;
     int rowCount = 0;
-    const int num_of_rows_to_change_level = 10;
+    const int num_of_rows_to_change_level = 20;
     float tmp_score = 0;
     bool canMakeBomb = false;
     int action = 0;
@@ -23,7 +23,11 @@ public class Board : MonoBehaviour
     const float blockColorProb = 0.98f;
     List<int> randomBox = new List<int>();
 
+    int moveCount = 0;
+    int combo = 0;
+
     [SerializeField] ScoreText score_text;
+    [SerializeField] ComboText comboText;
     [SerializeField] BombGauge bomb_gauge;
     [SerializeField] GameOverText gameover_text;
 
@@ -118,6 +122,7 @@ public class Board : MonoBehaviour
         for (int i = 0; i < maxColNum; ++i)
         {
             if (i == bombCol) continue;
+            if (GetLastRowBlock_Index(i) >= 10) continue;
 
             int RandomBlockID = 0;
             Block block = Managers.Game.Instantiate(pos.background_transform);
@@ -181,6 +186,12 @@ public class Board : MonoBehaviour
         Managers.Game.selectedFrame.Setting(lastBlock, pos.blockPos[col, row]);
     }
 
+    private void Clear()
+    {
+        Calculate_Score();
+        SetBombGauge();
+    }
+
     // 블록 이동시키기 + 제거(제거 가능한지 검사도 같이함) + 위치 재정렬  
     public void MoveAndCheck(Block block, int prevCol, int nextCol)
     {
@@ -193,6 +204,7 @@ public class Board : MonoBehaviour
         int startRow = GetLastRowBlock_Index(nextCol);
         if (startRow >= maxRowNum) return;
         block.myTransform.position = pos.blockPos[nextCol, startRow].position;
+        moveCount++; // 이동 횟수 증가!
 
         // Check
         if (block.blockdata.blockType == Define.BlockType.Color)
@@ -261,8 +273,8 @@ public class Board : MonoBehaviour
         for (int i = 0; i < 3; ++i)
             Clear_One_Block(col, row - i);
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(col, row);
+        Clear();
     }
 
     // 이동시킨 스페셜 블록 종류에 따른 제거 로직
@@ -310,8 +322,8 @@ public class Board : MonoBehaviour
 
         Clear_Additional_Blocks();
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(col, row);
+        Clear();
     }
 
     // Erase 블록 : 모든 블록을 없앤다. 없어지는 범위에 폭탄 블록이 있을 경우 발동시킨다.
@@ -325,8 +337,8 @@ public class Board : MonoBehaviour
             }
         }
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(5, 5);
+        Clear();
     }
 
     // Up 블록 : 이동한 곳의 한 열을 전부 없앤다. 없어지는 범위에 스페셜 블록이 있을 경우 발동시키지 않고 보존한다.
@@ -341,8 +353,8 @@ public class Board : MonoBehaviour
                 ++i;
         }
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(col, row);
+        Clear();
     }
 
     // one 블록 : 이동한 곳에 있는 하나의 블록만 없앤다. 해당 블록이 스페셜 블록일 경우 발동시키지 않고 보존한다.
@@ -354,8 +366,8 @@ public class Board : MonoBehaviour
         Clear_One_Block(col, row);
         Clear_One_Block(col, row - 1);
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(col, row);
+        Clear();
     }
 
     // bomb 블록 : 폭탄이 터진 열 기준에서의 양 옆의 열의 3 행을 없앤다. 최대 3 x 3 크기를 없앤다. 게임 시간 10 초를 추가한다. 폭탄이 터지는 범위에 스페셜 블록이 있을 경우 발동시키지 않고 보존한다.
@@ -395,14 +407,14 @@ public class Board : MonoBehaviour
 
         Clear_Additional_Blocks();
 
-        Calculate_Score();
-        SetBombGauge();
+        UpdateCombo(col, row);
+        Clear();
     }
 
     private void Calculate_Score()
     {
         tmp_score *= (int)Managers.Game.gameState;
-        tmp_score *= (Managers.Game.combo / 100f + 1);
+        tmp_score *= (combo / 100f + 1);
         Managers.Game.score += (int)tmp_score;
 
         tmp_score = 0f;
@@ -428,5 +440,23 @@ public class Board : MonoBehaviour
             Managers.Game.level += 1;
             rowCount = 0;
         }
+    }
+
+    private void UpdateCombo(int col, int row)
+    {
+        if (moveCount <= Managers.Game.level + 1)
+        {
+            ++combo;
+            if (combo > 1)
+            {
+                comboText.gameObject.SetActive(true);
+                comboText.Show_ComboText(combo - 1, pos.blockPos[col, row].position);
+            }
+        }
+        else
+        {
+            combo = 0;
+        }
+        moveCount = 0;
     }
 }
