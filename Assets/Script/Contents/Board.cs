@@ -286,7 +286,7 @@ public class Board : MonoBehaviour
                 Clear_Rainow_Special_Block(col, row);
                 break;
             case Define.SpecialBlock.Erase:
-                Clear_Erase_Special_Block();
+                Clear_Erase_Special_Block(col, row);
                 break;
             case Define.SpecialBlock.Up:
                 Clear_Up_Special_Block(col, row);
@@ -327,7 +327,7 @@ public class Board : MonoBehaviour
     }
 
     // Erase 블록 : 모든 블록을 없앤다. 없어지는 범위에 폭탄 블록이 있을 경우 발동시킨다.
-    private void Clear_Erase_Special_Block()
+    private void Clear_Erase_Special_Block(int col, int row)
     {
         for (int i = 0; i < maxColNum; ++i)
         {
@@ -337,7 +337,7 @@ public class Board : MonoBehaviour
             }
         }
 
-        UpdateCombo(5, 5);
+        UpdateCombo(col, row);
         Clear();
     }
 
@@ -444,12 +444,15 @@ public class Board : MonoBehaviour
 
     private void UpdateCombo(int col, int row)
     {
+        
         if (moveCount <= Managers.Game.level + 1)
         {
             ++combo;
             if (combo > 1)
             {
                 comboText.gameObject.SetActive(true);
+                if (col >= 4 || row >= 10 || col < 0 || row < 0)
+                    Debug.Log("D");
                 comboText.Show_ComboText(combo - 1, pos.blockPos[col, row].position);
             }
         }
