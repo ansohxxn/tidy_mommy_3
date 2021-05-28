@@ -12,7 +12,6 @@ public class Board : MonoBehaviour
     const int num_of_rows_to_change_level = 20;
     float tmp_score = 0;
     bool canMakeBomb = false;
-    int action = 0;
 
     const int maxColNum = 3;
     const int maxRowNum = 10;
@@ -24,31 +23,44 @@ public class Board : MonoBehaviour
     List<int> randomBox = new List<int>();
 
     int moveCount = 0;
-    int combo = 0;
 
     [SerializeField] ScoreText score_text;
-    [SerializeField] ComboText comboText;
+    [SerializeField] tenSecondsImg tenSecondsImg;
     [SerializeField] BombGauge bomb_gauge;
     [SerializeField] GameOverText gameover_text;
+    GameMode gameMode;
 
-    public Block GetLastRowBlock(int col) { return blocks[col][blocks[col].Count - 1]; }
-    public int GetLastRowBlock_Index(int col) { return blocks[col].Count - 1; }
+    public Block GetLastRowBlock(int col) 
+    {
+        if (blocks[col].Count == 0) return null;
+        return blocks[col][blocks[col].Count - 1]; 
+    }
+    public bool IsBlockEmpty(int col)
+    {
+        if (blocks[col].Count == 0) return true;
+        return false;
+    }
+    public int GetLastRowBlock_Index(int col) 
+    { 
+        return blocks[col].Count - 1; 
+    }
 
     void Start()
     {
-        Init();
+        pos = GetComponent<Pos>();
+        gameMode = GetComponent<GameMode>();
+
+        blockColorNum = System.Enum.GetValues(typeof(Define.ColorBlock)).Length;
+        blockSpecialNum = System.Enum.GetValues(typeof(Define.SpecialBlock)).Length;
+
+        BoardInit();
         // Ready Go ! (코루틴)
         StartCoroutine(PeriodicallySpawn());
     }
 
     // 필요한 초기화 작업
-    private void Init()
+    public void BoardInit()
     {
-        pos = GetComponent<Pos>();
-
-        blockColorNum = System.Enum.GetValues(typeof(Define.ColorBlock)).Length;
-        blockSpecialNum = System.Enum.GetValues(typeof(Define.SpecialBlock)).Length;
-        
         for (int i = 0; i < maxColNum; ++i)
             blocks.Add(new List<Block>());
 
@@ -90,6 +102,8 @@ public class Board : MonoBehaviour
     {
         randomBox.Clear();
         int max = Managers.Game.level;
+        if (Managers.Game.gameState == Define.GameState.SuperFever)
+            max = (int)Define.ColorBlock.Blue;
         for (int i = 0; i <= max; ++i)
             if (i != except)
                 randomBox.Add(i);
@@ -164,6 +178,7 @@ public class Board : MonoBehaviour
             {
                 Managers.Game.isGameOver = true;
                 gameover_text.Set_GameOver_Text();
+                Time.timeScale = 0;
                 return;
             }
 
@@ -176,7 +191,11 @@ public class Board : MonoBehaviour
     // 시간 주기마다 행이 추가로 생성되어 내려오기 때문에 선택되어 있는 프레임도 같이 한 칸 내려와야 한다.
     private void UpdateSelectedFramePos()
     {
-        if (Managers.Game.isGameOver) return;
+        if (Managers.Game.isGameOver)
+        {
+            Managers.Game.selectedFrame.SetDisactive();
+            return;
+        }
         if (Managers.Game.prevClickedCol == Define.Column.None) return;
 
         Managers.Game.selectedFrame.selectedBlock.SetBasicStateSprite();
@@ -205,6 +224,7 @@ public class Board : MonoBehaviour
         if (startRow >= maxRowNum) return;
         block.myTransform.position = pos.blockPos[nextCol, startRow].position;
         moveCount++; // 이동 횟수 증가!
+        if (Managers.Audio.canSFX) Managers.Audio.sfxMove_audioSource.Play();
 
         // Check
         if (block.blockdata.blockType == Define.BlockType.Color)
@@ -224,11 +244,16 @@ public class Board : MonoBehaviour
 
         // 만약 폭탄 블록인 경우 10 초 추가, 폭탄 게이지 리셋
         if (blocks[col][row].blockdata.specialBlock_name == Define.SpecialBlock.Bomb)
+        {
+            Show_Bomb_Seconds_Img(pos.blockPos[col, row].position);
             Managers.Game.time += 10f;
+        }
 
         // 제거
+        pos.particlePos[col, row].Play();
         Managers.Game.Destroy(blocks[col][row]);
         blocks[col].RemoveAt(row);
+        if (Managers.Audio.canSFX) Managers.Audio.sfxSuccess_audioSource.Play();
     }
 
     // Bomb, Rainbow 같이 중간 행 블록을 제거하는 블록의 경우엔 재정렬시 같은 색 블록 3 행이 될 수도 있다. 이런 경우도 다 체크하고 제거하는 함수.
@@ -329,28 +354,39 @@ public class Board : MonoBehaviour
     // Erase 블록 : 모든 블록을 없앤다. 없어지는 범위에 폭탄 블록이 있을 경우 발동시킨다.
     private void Clear_Erase_Special_Block(int col, int row)
     {
+        Clear_All_Blocks();
+        UpdateCombo(col, row);
+        Clear();
+    }
+
+    public void Clear_ForSuperFever()
+    {
+        Clear_All_Blocks();
+        moveCount = 0;
+        Clear();
+    }
+
+    private void Clear_All_Blocks()
+    {
         for (int i = 0; i < maxColNum; ++i)
         {
-            for (int j = 0; j < blocks[i].Count; )
+            int size = blocks[i].Count;
+            for (int j = size - 1; j >= 0; --j)
             {
                 Clear_One_Block(i, j);
             }
         }
-
-        UpdateCombo(col, row);
-        Clear();
     }
 
     // Up 블록 : 이동한 곳의 한 열을 전부 없앤다. 없어지는 범위에 스페셜 블록이 있을 경우 발동시키지 않고 보존한다.
     private void Clear_Up_Special_Block(int col, int row)
     {
         Clear_One_Block(col, row);
-        for (int i = 0; i < blocks[col].Count; )
+        int size = blocks[col].Count;
+        for (int i = size - 1; i >= 0; --i)
         {
             if (blocks[col][i].blockdata.blockType == Define.BlockType.Color)
                 Clear_One_Block(col, i);
-            else
-                ++i;
         }
 
         UpdateCombo(col, row);
@@ -406,15 +442,21 @@ public class Board : MonoBehaviour
         }
 
         Clear_Additional_Blocks();
-
+        Show_Bomb_Seconds_Img(pos.blockPos[col, row].position);
         UpdateCombo(col, row);
         Clear();
     }
 
+    private void Show_Bomb_Seconds_Img(Vector2 pos)
+    {
+        tenSecondsImg.myGameObject.SetActive(true);
+        tenSecondsImg.Show_TenSecondsImg(pos);
+    }
+
     private void Calculate_Score()
     {
-        tmp_score *= (int)Managers.Game.gameState;
-        tmp_score *= (combo / 100f + 1);
+        tmp_score *= (int)Managers.Game.gameState_score;
+        tmp_score *= (Managers.Game.combo / 100f + 1);
         Managers.Game.score += (int)tmp_score;
 
         tmp_score = 0f;
@@ -444,22 +486,7 @@ public class Board : MonoBehaviour
 
     private void UpdateCombo(int col, int row)
     {
-        
-        if (moveCount <= Managers.Game.level + 1)
-        {
-            ++combo;
-            if (combo > 1)
-            {
-                comboText.gameObject.SetActive(true);
-                if (col >= 4 || row >= 10 || col < 0 || row < 0)
-                    Debug.Log("D");
-                comboText.Show_ComboText(combo - 1, pos.blockPos[col, row].position);
-            }
-        }
-        else
-        {
-            combo = 0;
-        }
+        gameMode.Update_Combo(moveCount, pos.blockPos[col, row].position);
         moveCount = 0;
     }
 }

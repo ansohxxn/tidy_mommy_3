@@ -7,10 +7,12 @@ public class Pos : MonoBehaviour
     float width, height;
     Vector2 startPos;
 
-    public Transform[,] blockPos; // [col][row]
+    public Transform[,] blockPos = new Transform[3, 10];
+    public ParticleSystem[,] particlePos = new ParticleSystem[3, 10];
 
     SpriteRenderer background;
     [HideInInspector] public Transform background_transform;
+    [SerializeField] GameObject prefab;
 
     void Start()
     {
@@ -27,8 +29,6 @@ public class Pos : MonoBehaviour
         Managers.Game.selectedFrame.myTransform.position = startPos;
         Managers.Game.selectedFrame.myTransform.SetParent(background_transform);
 
-        blockPos = new Transform[3, 10];
-
         for (int i = 0; i < 3; ++i)
         {
             float x = startPos.x + i * (width / 3);
@@ -36,12 +36,14 @@ public class Pos : MonoBehaviour
             {
                 float y = startPos.y - j * (height / 10);
 
-                GameObject go = new GameObject("blockPos");
+                GameObject go = Object.Instantiate(prefab);
                 blockPos[i, j] = go.transform;
                 blockPos[i, j].SetParent(background_transform);
 
                 Vector2 pos = new Vector2(x, y);
                 blockPos[i, j].localPosition = pos;
+
+                particlePos[i,j] = go.GetComponent<ParticleSystem>();
             }
         }
     }

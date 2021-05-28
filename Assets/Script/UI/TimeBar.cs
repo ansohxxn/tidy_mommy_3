@@ -44,6 +44,7 @@ public class TimeBar : MonoBehaviour
             yield return Managers.Co.WaitSeconds(second);
         }
         Managers.Game.isGameOver = true;
+        Time.timeScale = 0;
         gameover_text.Set_GameOver_Text();
     }
 

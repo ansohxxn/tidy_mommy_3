@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class Define 
 {
-    public enum GameStateCombo
+    public enum SFX
     {
-        Fever = 5,
-        SuperFever = 10
+        Move,
+        Success,
+        Click
     }
 
-    public enum GameStateScore
+    public enum GameState_Score
     {
         Normal = 1,
         Fever = 2,
         SuperFever = 4
+    }
+
+    public enum GameState
+    {
+        Normal,
+        Fever,
+        SuperFever
     }
 
     public enum BlockType

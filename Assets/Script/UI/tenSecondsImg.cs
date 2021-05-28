@@ -1,34 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using System.Text;
 
-public class ComboText : MonoBehaviour
+public class tenSecondsImg : MonoBehaviour
 {
     [SerializeField] AnimationClip animClip;
-    TextMeshPro comboText;
-    [HideInInspector] public Transform myTransform;
     [HideInInspector] public GameObject myGameObject;
+    [HideInInspector] public Transform myTransform;
 
     void Start()
     {
-        myTransform = GetComponent<Transform>();
         myGameObject = gameObject;
-        comboText = GetComponent<TextMeshPro>();
-
+        myTransform = GetComponent<Transform>();
         myGameObject.SetActive(false);
     }
 
-    public void Show_ComboText(Vector2 pos)
+    public void Show_TenSecondsImg(Vector2 pos)
     {
-        comboText.text = Managers.Game.combo.ToString() + " Combo";
         myTransform.position = pos;
-
-        StartCoroutine(Hide_ComboText());
+        StartCoroutine(Hide_TenSecondsImg());
     }
 
-    IEnumerator Hide_ComboText()
+    IEnumerator Hide_TenSecondsImg()
     {
         yield return Managers.Co.WaitSeconds(animClip.length);
         myGameObject.SetActive(false);

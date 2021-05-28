@@ -25,7 +25,7 @@ public class Managers : MonoBehaviour
 
     #endregion
 
-    void Awake()
+    void Start()
     {
         Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         Init();
@@ -36,15 +36,9 @@ public class Managers : MonoBehaviour
         if (s_instance == null)
         {
             GameObject go = GameObject.Find("@Managers");
-            if (go == null)
-            {
-                go = new GameObject { name = "@Managers" };
-                go.AddComponent<Managers>();
-            }
-            else return;
-
             s_instance = go.GetComponent<Managers>();
-            s_instance._audio.audioSource = go.AddComponent<AudioSource>();
+
+            Generate_AudioSource();
 
             s_instance._resource.Init();
             s_instance._pool.Init();
@@ -58,5 +52,13 @@ public class Managers : MonoBehaviour
     public static void Clear()
     {
         Pool.Clear();
+    }
+
+    static void Generate_AudioSource()
+    {
+        s_instance._audio.bgm_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
+        s_instance._audio.sfxMove_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
+        s_instance._audio.sfxSuccess_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
+        s_instance._audio.sfxClick_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
     }
 }

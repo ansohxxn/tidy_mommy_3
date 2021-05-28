@@ -15,9 +15,10 @@ public class BoardInput : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
 
         if (Managers.Game.prevClickedCol == Define.Column.None) // 클릭 상태였던 블록이 없다면 selectedFrame 활성화
         {
-            Managers.Game.prevClickedCol = colID;
-
             int col = (int)colID;
+            if (board.IsBlockEmpty(col)) return;
+
+            Managers.Game.prevClickedCol = colID;
             int row = board.GetLastRowBlock_Index((int)colID);
 
             if (row >= 10) return;

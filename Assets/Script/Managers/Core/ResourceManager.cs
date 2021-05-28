@@ -20,12 +20,8 @@ public class ResourceManager
     };
 
     string[] SpecialBlockSpriteName = new string[5] { "rainbow_0", "erase_0", "up_0", "one_0", "bomb_0" };
-    string[,] CharSpriteName = new string[3, 4]
-    {
-        {"sun_idle_0", "sun_left_0", "sun_right_0", "sun_up_0" },
-        {"moon_idle_0", "moon_left_0", "moon_right_0", "moon_up_0" },
-        {"fever_idle_0", "fever_left_0", "fever_right_0", "fever_up_0" },
-    };
+    string[] CharSpriteName = new string[3] { "sun_idle_0", "moon_idle_0", "fever_idle_0" };
+    string[] BackgroundSpritename = new string[3] { "Normal", "Fever", "SuperFever" };
 
     string selectedName = "select_0";
 
@@ -37,8 +33,6 @@ public class ResourceManager
 
     public Sprite GetColorBlockSprite(Define.ColorBlock block, Define.ClickState state = Define.ClickState.NotClicked)
     {
-        int b1 = (int)block;
-        int b2 = (int)state;
         Sprite s = atlas.GetSprite(ColorBlockSpriteName[3, 0]);
         return atlas.GetSprite(ColorBlockSpriteName[(int)block, (int)state]); 
     }
@@ -51,6 +45,16 @@ public class ResourceManager
     public Sprite GetSelectedBlockSprite()
     {
         return atlas.GetSprite(selectedName);
+    }
+
+    public Sprite GetCharSprite(Define.GameState gameState)
+    {
+        return atlas.GetSprite(CharSpriteName[(int)gameState]);
+    }
+
+    public Sprite GetBackgroundSprite(Define.GameState gameState)
+    {
+        return atlas.GetSprite(BackgroundSpritename[(int)gameState]);
     }
     #endregion
 
@@ -95,12 +99,20 @@ public class ResourceManager
 
     #region audio clip
     AudioClip bgm;
+    AudioClip sfx_move;
+    AudioClip sfx_success;
+    AudioClip sfx_click;
     public AudioClip GetBGM() { return bgm; }
+    public AudioClip GetSFX_Move() { return sfx_move; }
+    public AudioClip GetSFX_Success() { return sfx_success; }
+    public AudioClip GetSFX_Click() { return sfx_click; }
 
     private void Load_Audio()
     {
-        //bgm = Resources.Load<AudioClip>("Sound/BGM/ArcadeGameBGM");
         bgm = Resources.Load<AudioClip>("Sound/BGM/Root - Silent Partner");
+        sfx_move = Resources.Load<AudioClip>("Sound/SFX/Move");
+        sfx_success = Resources.Load<AudioClip>("Sound/SFX/Success");
+        sfx_click = Resources.Load<AudioClip>("Sound/SFX/Click");
     }
     #endregion
 

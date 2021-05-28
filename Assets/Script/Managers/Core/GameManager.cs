@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager
 {
@@ -8,8 +9,10 @@ public class GameManager
     const float startSeconds = 60f;
 
     public int score;
+    public int combo = -1;
     public int level = (int)Define.ColorBlock.Blue;
-    public Define.GameStateScore gameState = Define.GameStateScore.Normal;
+    public Define.GameState gameState = Define.GameState.Normal;
+    public Define.GameState_Score gameState_score = Define.GameState_Score.Normal;
 
     public bool isGameOver;
 
