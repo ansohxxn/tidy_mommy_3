@@ -21,7 +21,7 @@
 
 ### 🖍 플레이 영상 보러 가기! (유튜브)
 
-<https://youtu.be/TxMHwuCbxA8>
+<https://youtu.be/VSaYdBk6jOU>
 
 ---
 
