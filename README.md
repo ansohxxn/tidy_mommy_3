@@ -28,6 +28,8 @@
 
 > 3 개의 열 중 하나를 터치하여 이동할 블록을 선택하고, 이 상태에서 다른 열을 선택하여 블록을 이동시킬 수 있습니다.
 
+- 새 행이 스폰될 때 같은 색 블록이 세로로 3 개 모이는 일이 없게끔 하는 제한을 둔 상태에서 스폰할 블록 색상이 랜덤하게 선택 됨. 
+
 ![image](https://user-images.githubusercontent.com/42318591/117399678-0b744580-af3c-11eb-9271-6a67674dd886.png)
 
 ![image](https://user-images.githubusercontent.com/42318591/117399365-62c5e600-af3b-11eb-90c2-addd35e3c19e.png)
