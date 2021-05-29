@@ -23,6 +23,12 @@ public class Managers : MonoBehaviour
     AudioManager _audio = new AudioManager();
     public static AudioManager Audio { get { return Instance._audio; } }
 
+    SceneManagerEx _scene = new SceneManagerEx();
+    public static SceneManagerEx Scene { get { return Instance._scene; } }
+
+    DataManager _data = new DataManager();
+    public static DataManager Data { get { return Instance._data; } }
+
     #endregion
 
     void Start()
@@ -36,22 +42,26 @@ public class Managers : MonoBehaviour
         if (s_instance == null)
         {
             GameObject go = GameObject.Find("@Managers");
-            s_instance = go.GetComponent<Managers>();
+            if (go == null)
+            {
+                go = new GameObject { name = "@Managers" };
+                go.AddComponent<Managers>();
+                s_instance = go.GetComponent<Managers>();
+            }
+
+            DontDestroyOnLoad(go);
 
             Generate_AudioSource();
 
+            s_instance._data.Init();
             s_instance._resource.Init();
-            s_instance._pool.Init();
-            s_instance._game.Init();
             s_instance._audio.Init();
-
-            DontDestroyOnLoad(go);
         }
     }
 
     public static void Clear()
     {
-        Pool.Clear();
+        
     }
 
     static void Generate_AudioSource()
@@ -60,5 +70,6 @@ public class Managers : MonoBehaviour
         s_instance._audio.sfxMove_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
         s_instance._audio.sfxSuccess_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
         s_instance._audio.sfxClick_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
+        s_instance._audio.sfx_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
     }
 }

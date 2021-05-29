@@ -27,7 +27,7 @@ public class BoardInput : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
         else if (Managers.Game.prevClickedCol == colID)  // 클릭 했던 열 동일하게 또 누르면 selectedFrame 해제 
         {
             Managers.Game.prevClickedCol = Define.Column.None;
-
+            if (Managers.Game.selectedFrame.selectedBlock == null) return;
             Managers.Game.selectedFrame.selectedBlock.SetBasicStateSprite();
             Managers.Game.selectedFrame.SetDisactive();
         }

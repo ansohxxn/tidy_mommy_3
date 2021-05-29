@@ -12,7 +12,8 @@ public class TimeBar : MonoBehaviour
     Slider slider;
     public TextMeshProUGUI timerText;
     [SerializeField] GameOverText gameover_text;
-
+    [SerializeField] Board board;
+     
     void Start()
     {
         Init();
@@ -43,15 +44,15 @@ public class TimeBar : MonoBehaviour
 
             yield return Managers.Co.WaitSeconds(second);
         }
-        Managers.Game.isGameOver = true;
-        Time.timeScale = 0;
-        gameover_text.Set_GameOver_Text();
+        if (Managers.Game.isGameOver) yield break;
+        board.GameOver();
     }
 
     private IEnumerator TimeSliderUpdate()
     {
-        while (slider.value <= 60 && Mathf.Abs(slider.value - Managers.Game.time) > epsilon && !Managers.Game.isGameOver)
+        while (slider.value <= 60 && !Managers.Game.isGameOver)
         {
+
             slider.value = Mathf.Lerp(slider.value, Managers.Game.time, Time.deltaTime);
             yield return null;
         }

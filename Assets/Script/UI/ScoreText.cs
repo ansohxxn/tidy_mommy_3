@@ -13,6 +13,9 @@ public class ScoreText : MonoBehaviour
         timerText = GetComponent<TextMeshProUGUI>();
         timerText.text = "0";
     }
-
-    public void Text_UI_Update(){ timerText.text = Managers.Game.score.ToString(); }
+    
+    public void Text_UI_Update()
+    { 
+        timerText.text = string.Format("{0:#,##0}", Managers.Game.score); 
+    }
 }

@@ -12,6 +12,7 @@ public class TimeBarInput : MonoBehaviour, IPointerClickHandler, IPointerDownHan
     public void OnPointerClick(PointerEventData eventData)
     {
         if (Managers.Game.isGameOver) return;
+        if (Managers.Audio.canSFX) Managers.Audio.sfxClick_audioSource.Play();
         SetScore();
         board.MakeNextRows();
     }

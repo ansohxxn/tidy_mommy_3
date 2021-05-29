@@ -104,11 +104,12 @@ SpriteAtlas:
     - {fileID: 21300000, guid: da9f666cc08d2574087de987fd6feb78, type: 3}
     - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-    - {fileID: 2800000, guid: f3af77a762630694eaf22814ab6720d9, type: 3}
-    totalSpriteSurfaceArea: 1959777
+    - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    totalSpriteSurfaceArea: 1959529
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
@@ -129,7 +130,6 @@ SpriteAtlas:
   - {fileID: 4769134837912430429, guid: e9d6a8c6d069f034e81365a8efeddd76, type: 3}
   - {fileID: -2613247888821195678, guid: cef4aec6f827cad4284bb51af3069e6b, type: 3}
   - {fileID: 21300000, guid: dffdb4378818bc5469033648c57bd0b1, type: 3}
-  - {fileID: 21300000, guid: f3af77a762630694eaf22814ab6720d9, type: 3}
   - {fileID: 6344447254728021094, guid: 1e1422089b392854d8f56f6eb6574cfd, type: 3}
   - {fileID: -8425141836431729757, guid: c33a7b28f8cc5304ba3e6b45e1b145d4, type: 3}
   - {fileID: 9192207241966816860, guid: 8efa99a8e1e488e45885f1fb7c843784, type: 3}
@@ -154,6 +154,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7b0eb2bf387ad4946845ba5f39b42c14, type: 3}
   - {fileID: -6410442598547967069, guid: 364e56ef101bd9d488edc855dacac425, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Checkmark
   - UISprite
   - Background
   - Knob
@@ -174,7 +175,6 @@ SpriteAtlas:
   - red2_0
   - bomb_0
   - Normal
-  - dropdown_rounded_GB
   - blue2_0
   - yellow_0
   - rainbow_0

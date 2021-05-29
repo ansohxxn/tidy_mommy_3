@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class Define 
 {
+    public enum Result
+    {
+        Win,
+        Lose
+    }
+
+    public enum Scene
+    {
+        Start,
+        Main,
+        Loading,
+        Score
+    }
+
     public enum SFX
     {
         Move,

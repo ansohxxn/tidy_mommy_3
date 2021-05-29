@@ -9,13 +9,13 @@ public class SystemMenu : MonoBehaviour
 
     void Start()
     {
-        Close_SystemMenu();
+        systemUI.SetActive(false);
     }
 
     public void Open_SystemMenu()
     {
         if (systemUI.activeSelf) return;
-
+        if (Managers.Audio.canSFX) Managers.Audio.sfxClick_audioSource.Play();
         systemUI.SetActive(true);
         Time.timeScale = 0;
     }
@@ -23,7 +23,7 @@ public class SystemMenu : MonoBehaviour
     public void Close_SystemMenu()
     {
         if (!systemUI.activeSelf) return;
-
+        if (Managers.Audio.canSFX) Managers.Audio.sfxClick_audioSource.Play();
         systemUI.SetActive(false);
         Time.timeScale = 1;
     }

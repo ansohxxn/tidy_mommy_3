@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: StartAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 64c0a9467ee75dd4cbbf54b573a2e2a3, type: 3}
+    - {fileID: 21300000, guid: d4b7ce374ed72e7488eb3952ccfe603b, type: 3}
+    - {fileID: 21300000, guid: 2c30b8a3fac7d4b40a8d4c0a5c6cccc5, type: 3}
+    - {fileID: 21300000, guid: 24eca459c11dcf04583de27273f20da5, type: 3}
+    - {fileID: 2800000, guid: 0d03b2fd659cf5643a8f0c2a2484a54d, type: 3}
+    - {fileID: 21300000, guid: 9a838a518781e43499c968ff936f39de, type: 3}
+    - {fileID: 21300000, guid: 1630dd22883b5d547ab800f97408fa35, type: 3}
+    totalSpriteSurfaceArea: 931328
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 9a838a518781e43499c968ff936f39de, type: 3}
+  - {fileID: 21300000, guid: 1630dd22883b5d547ab800f97408fa35, type: 3}
+  - {fileID: 21300000, guid: 2c30b8a3fac7d4b40a8d4c0a5c6cccc5, type: 3}
+  - {fileID: 21300000, guid: 64c0a9467ee75dd4cbbf54b573a2e2a3, type: 3}
+  - {fileID: 21300000, guid: d4b7ce374ed72e7488eb3952ccfe603b, type: 3}
+  - {fileID: 21300000, guid: 24eca459c11dcf04583de27273f20da5, type: 3}
+  - {fileID: 21300000, guid: 0d03b2fd659cf5643a8f0c2a2484a54d, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - good_job
+  - new_record
+  - exit
+  - best
+  - title
+  - start
+  - btn
+  m_Tag: StartAtlas
+  m_IsVariant: 0

@@ -7,6 +7,7 @@ public class ResourceManager
 {
     #region sprite
     SpriteAtlas atlas;
+    SpriteAtlas atlas2;
 
     string[,] ColorBlockSpriteName = new string[7, 2]
     {
@@ -23,12 +24,15 @@ public class ResourceManager
     string[] CharSpriteName = new string[3] { "sun_idle_0", "moon_idle_0", "fever_idle_0" };
     string[] BackgroundSpritename = new string[3] { "Normal", "Fever", "SuperFever" };
 
+    string[] ResultName = new string[2] { "new_record", "good_job" };
+
     string selectedName = "select_0";
 
     
     private void Load_Sprite()
     {
         atlas = Resources.Load<SpriteAtlas>("Art/Sprite/SpriteAtlas");
+        atlas2 = Resources.Load<SpriteAtlas>("Art/Sprite/StartAtlas");
     }
 
     public Sprite GetColorBlockSprite(Define.ColorBlock block, Define.ClickState state = Define.ClickState.NotClicked)
@@ -55,6 +59,11 @@ public class ResourceManager
     public Sprite GetBackgroundSprite(Define.GameState gameState)
     {
         return atlas.GetSprite(BackgroundSpritename[(int)gameState]);
+    }
+
+    public Sprite GetGameResultSprite(Define.Result gameResult)
+    {
+        return atlas2.GetSprite(ResultName[(int)gameResult]);
     }
     #endregion
 
@@ -102,10 +111,12 @@ public class ResourceManager
     AudioClip sfx_move;
     AudioClip sfx_success;
     AudioClip sfx_click;
+    AudioClip sfx_end;
     public AudioClip GetBGM() { return bgm; }
     public AudioClip GetSFX_Move() { return sfx_move; }
     public AudioClip GetSFX_Success() { return sfx_success; }
     public AudioClip GetSFX_Click() { return sfx_click; }
+    public AudioClip GetSFX_End() { return sfx_end; }
 
     private void Load_Audio()
     {
@@ -113,6 +124,7 @@ public class ResourceManager
         sfx_move = Resources.Load<AudioClip>("Sound/SFX/Move");
         sfx_success = Resources.Load<AudioClip>("Sound/SFX/Success");
         sfx_click = Resources.Load<AudioClip>("Sound/SFX/Click");
+        sfx_end = Resources.Load<AudioClip>("Sound/SFX/End");
     }
     #endregion
 

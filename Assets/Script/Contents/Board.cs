@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     Pos pos;
     List<List<Block>> blocks = new List<List<Block>>(); // 블록 객체들 (풀로 관리되는)
 
+    const float waitExit = 3.0f;
     float rowGenerateTime = 4.0f;
     int rowCount = 0;
     const int num_of_rows_to_change_level = 20;
@@ -61,8 +62,9 @@ public class Board : MonoBehaviour
     // 필요한 초기화 작업
     public void BoardInit()
     {
-        for (int i = 0; i < maxColNum; ++i)
-            blocks.Add(new List<Block>());
+        if (blocks.Count < maxColNum)
+            for (int i = 0; i < maxColNum; ++i)
+                blocks.Add(new List<Block>());
 
         for (int i = 0; i < startRowNum; ++i)
             MakeNextRows();
@@ -83,6 +85,14 @@ public class Board : MonoBehaviour
     // 한 줄 생성 (블록 이중 리스트 업데이트 + 업데이트 된 리스트에 따른 위치 재정렬 + num_of_rows_to_change_level 줄 단위마다 레벨 상승)
     public void MakeNextRows()
     {
+        for(int i = 0; i < maxColNum; ++i)
+        {
+            if (blocks[i].Count == maxRowNum)
+            {
+                GameOver();
+                return;
+            }
+        }    
         AddRow();
         UpdateAllRowPos();
         LevelUpdate();
@@ -158,7 +168,6 @@ public class Board : MonoBehaviour
                     break;
 
                 case Define.BlockType.Special:
-                    //RandomBlockID = 4;
                     RandomBlockID = Random.Range(0, blockSpecialNum - 1); // BOMB 은 제외하고 뽑기 (BOMB 블록은 폭탄 게이지를 채웠을 때만 생성되기 때문)
                     block.SpecialBlock_OnEnable((Define.SpecialBlock)RandomBlockID);
                     break;
@@ -174,14 +183,6 @@ public class Board : MonoBehaviour
 
         for (int i = 0; i < maxColNum; ++i)
         {
-            if (blocks[i].Count > maxRowNum)
-            {
-                Managers.Game.isGameOver = true;
-                gameover_text.Set_GameOver_Text();
-                Time.timeScale = 0;
-                return;
-            }
-
             for (int j = 0; j < blocks[i].Count; ++j)
                 blocks[i][j].myTransform.position = pos.blockPos[i, j].position;
         }
@@ -245,8 +246,11 @@ public class Board : MonoBehaviour
         // 만약 폭탄 블록인 경우 10 초 추가, 폭탄 게이지 리셋
         if (blocks[col][row].blockdata.specialBlock_name == Define.SpecialBlock.Bomb)
         {
-            Show_Bomb_Seconds_Img(pos.blockPos[col, row].position);
-            Managers.Game.time += 10f;
+            if (!Managers.Game.isGameOver)
+            {
+                Show_Bomb_Seconds_Img(pos.blockPos[col, row].position);
+                Managers.Game.time += 10f;
+            }
         }
 
         // 제거
@@ -261,27 +265,24 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < maxColNum; ++i)
         {
+            int size = blocks[i].Count;
             bool first = true;
             int count = 1;
             Define.ColorBlock cmpColor = Define.ColorBlock.Red;
-            for (int j = 0; j < blocks[i].Count; )
+            for (int j = size - 1; j >= 0; --j)
             {
                 if (first || cmpColor != blocks[i][j].blockdata.colorBlock_name || blocks[i][j].blockdata.blockType == Define.BlockType.Special)
                 {
                     first = false;
                     cmpColor = blocks[i][j].blockdata.colorBlock_name;
                     count = 1;
-                    ++j;
                 }
                 else if (++count == 3)
                 {
-                    Clear_One_Block(i, j);
-                    Clear_One_Block(i, j - 1);
-                    Clear_One_Block(i, j - 2);
+                    for(int k = 0; k < 3; ++k)
+                        Clear_One_Block(i, j);
                     count = 1;
                 }
-                else
-                    ++j;
             }
         }
     }
@@ -336,12 +337,11 @@ public class Board : MonoBehaviour
 
         for (int i = 0; i < maxColNum; ++i)
         {
-            for (int j = 0; j < blocks[i].Count; )
+            int size = blocks[i].Count;
+            for (int j = size - 1; j >= 0; --j)
             {
                 if (blocks[i][j].blockdata.blockType == Define.BlockType.Color && attached_block.blockdata.colorBlock_name == blocks[i][j].blockdata.colorBlock_name) 
                     Clear_One_Block(i, j);
-                else 
-                    ++j;
             }
         }
 
@@ -479,7 +479,8 @@ public class Board : MonoBehaviour
         ++rowCount;
         if (rowCount == num_of_rows_to_change_level)
         {
-            Managers.Game.level += 1;
+            if(Managers.Game.level < blockColorNum - 1)
+                Managers.Game.level += 1;
             rowCount = 0;
         }
     }
@@ -488,5 +489,21 @@ public class Board : MonoBehaviour
     {
         gameMode.Update_Combo(moveCount, pos.blockPos[col, row].position);
         moveCount = 0;
+    }
+
+    public void GameOver()
+    {
+        Managers.Game.isGameOver = true;
+        Clear_ForSuperFever();
+        gameover_text.Set_GameOver_Text();
+        Managers.Game.selectedFrame.mySpriteRenderer.enabled = false;
+
+        StartCoroutine(Wait_And_Exit());
+    }
+
+    IEnumerator Wait_And_Exit()
+    {
+        yield return Managers.Co.WaitSeconds(waitExit);
+        Managers.Scene.LoadScene(Define.Scene.Loading);
     }
 }
