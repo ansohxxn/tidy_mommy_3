@@ -7,7 +7,6 @@ public class GameMode : MonoBehaviour
 {
     private const int to_feverMode = 5;
     private const int to_superfeverMode = 10;
-    private float[] bgmSpeed = { 1.0f, 1.1f, 1.2f };
     private int feverCombo = 0;
     private float superfever_time = 10.0f;
     private Coroutine co;
@@ -95,7 +94,7 @@ public class GameMode : MonoBehaviour
         char_spriteRenderer.sprite = Managers.Resource.GetCharSprite(gameState);
         background_spriteRenderer.sprite = Managers.Resource.GetBackgroundSprite(gameState);
 
-        Managers.Audio.bgm_audioSource.pitch = bgmSpeed[(int)gameState];
+        Managers.Audio.bgm_audioSource.pitch = Managers.Audio.bgmSpeed[(int)gameState];
     }
 
     IEnumerator SuperFever_Timer()

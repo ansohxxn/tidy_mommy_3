@@ -12,6 +12,7 @@ public class MainScene : BaseScene
         Managers.Pool.Init();
 
         Managers.Audio.bgm_audioSource.Play();
+        Managers.Audio.bgm_audioSource.pitch = Managers.Audio.bgmSpeed[(int)Define.GameState.Normal];
     }
 
     public override void Clear()

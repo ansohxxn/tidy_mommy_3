@@ -12,6 +12,7 @@ public class AudioManager
 
     public bool canSFX = true;
 
+    public float[] bgmSpeed = { 1.0f, 1.1f, 1.2f };
     public float default_volume = 0.5f;
 
     public void Init()
