@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class GameManager
 {
     public float time;
-    const float startSeconds = 60f;
-
-    public int score;
+    
+    public int total_score;
     public int combo;
     public int level;
     public Define.GameState gameState;
@@ -21,11 +20,11 @@ public class GameManager
 
     public void Init()
     {
-        time = startSeconds;
+        time = Define.START_SECONDS;
 
-        score = 0;
+        total_score = 0;
         combo = -1;
-        level = (int)Define.ColorBlock.Blue;
+        level = (int)Define.Block.Blue;
         gameState = Define.GameState.Normal;
         gameState_score = Define.GameState_Score.Normal;
 
@@ -34,7 +33,7 @@ public class GameManager
         prevClickedCol = Define.Column.None;
 
         if (selectedFrame != null) return;
-        GameObject prefab = Managers.Resource.GetSelectedFramePrefab();
+        GameObject prefab = Managers.Resource.Get_Selected_Frame_Prefab();
         GameObject go = Object.Instantiate(prefab);
         selectedFrame = go.GetComponent<SelectedFrame>();
         selectedFrame.Init();

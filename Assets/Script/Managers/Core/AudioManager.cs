@@ -1,37 +1,70 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager 
-{ 
-    public AudioSource bgm_audioSource;
-    public AudioSource sfxMove_audioSource;
-    public AudioSource sfxSuccess_audioSource;
-    public AudioSource sfxClick_audioSource;
-    public AudioSource sfx_audioSource;
+{
+    public AudioSource bgmAudioSources;
+    public Dictionary<Define.SFX, AudioSource> sfxAudioSources = new Dictionary<Define.SFX, AudioSource>();
 
     public bool canSFX = true;
-
-    public float[] bgmSpeed = { 1.0f, 1.1f, 1.2f };
-    public float default_volume = 0.5f;
 
     public void Init()
     {
         // bgm
-        AudioSource_Setting(bgm_audioSource, default_volume, true, true, Managers.Resource.GetBGM());
+        BGM_Player_Setting();
 
         // sfx
-        AudioSource_Setting(sfxMove_audioSource, default_volume, false, false, Managers.Resource.GetSFX_Move());
-        AudioSource_Setting(sfxSuccess_audioSource, default_volume, false, false, Managers.Resource.GetSFX_Success());
-        AudioSource_Setting(sfxClick_audioSource, default_volume, false, false, Managers.Resource.GetSFX_Click());
-        AudioSource_Setting(sfx_audioSource, default_volume, false, false);
+        foreach (Define.SFX sfx in Enum.GetValues(typeof(Define.SFX)))
+            SFX_Player_Setting(sfx);
     }
 
-    public void AudioSource_Setting(AudioSource _audio, float _volume, bool _loop, bool _playOnAwake, AudioClip _clip = null)
+    private void BGM_Player_Setting()
     {
-        _audio.clip = _clip;
-        _audio.volume = _volume;
-        _audio.loop = _loop;
-        _audio.playOnAwake = _playOnAwake;
+        bgmAudioSources.clip = Managers.Resource.bgm;
+        bgmAudioSources.volume = Define.DEFAULT_VOLUME;
+        bgmAudioSources.loop = true;
+        bgmAudioSources.playOnAwake = true;
+    }
+
+    private void SFX_Player_Setting(Define.SFX sfx)
+    {
+        sfxAudioSources[sfx].clip = Managers.Resource.sfxAudioClips[sfx];
+        sfxAudioSources[sfx].volume = Define.DEFAULT_VOLUME;
+        sfxAudioSources[sfx].loop = false;
+        sfxAudioSources[sfx].playOnAwake = false;
+    }
+
+    public void Play_BGM()
+    {
+        bgmAudioSources.Play();
+    }
+
+    public void Pitch_Setting(Define.GameState gameState)
+    {
+        bgmAudioSources.pitch = Define.BGM_SPEED[(int)gameState];
+    }
+
+    public void Play_SFX(Define.SFX sfx)
+    {
+        if (canSFX)
+            sfxAudioSources[sfx].Play();
+    }
+
+    public void Stop_BGM()
+    {
+        bgmAudioSources.Stop();
+    }
+
+    public void BGM_Volume_Setting(float _volume)
+    {
+        bgmAudioSources.volume = _volume;
+    }
+
+    public void SFX_Volume_Setting(float _volume)
+    {
+        foreach (Define.SFX sfx in Enum.GetValues(typeof(Define.SFX)))
+            sfxAudioSources[sfx].volume = _volume;
     }
 }

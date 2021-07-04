@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -9,95 +10,81 @@ public class ResourceManager
     SpriteAtlas atlas;
     SpriteAtlas atlas2;
 
-    string[,] ColorBlockSpriteName = new string[7, 2]
+    string[][] Block_Sprite_Name = new string[12][]
     {
-        {"red1_0", "red2_0" },
-        {"blue1_0", "blue2_0" },
-        {"yellow_0", "yellow2_0" },
-        {"green_0", "green2_0" },
-        {"orange_0", "orange2_0" },
-        {"purple_0", "purple2_0" },
-        {"white_0", "white2_0" },
+        new string[2] {"red1_0", "red2_0" },
+        new string[2] {"blue1_0", "blue2_0" },
+        new string[2] {"yellow_0", "yellow2_0" },
+        new string[2] {"green_0", "green2_0" },
+        new string[2] {"orange_0", "orange2_0" },
+        new string[2] {"purple_0", "purple2_0" },
+        new string[2] {"white_0", "white2_0" },
+        new string[1] { "rainbow_0" },
+        new string[1] { "erase_0" },
+        new string[1] { "up_0" },
+        new string[1] { "one_0" },
+        new string[1] { "bomb_0" },
     };
+    string[] Char_Sprite_Name = new string[3] { "sun_idle_0", "moon_idle_0", "fever_idle_0" };
+    string[] Background_Sprite_Name = new string[3] { "Normal", "Fever", "SuperFever" };
+    string[] Result_Name = new string[2] { "new_record", "good_job" };
+    string selected_Name = "select_0";
 
-    string[] SpecialBlockSpriteName = new string[5] { "rainbow_0", "erase_0", "up_0", "one_0", "bomb_0" };
-    string[] CharSpriteName = new string[3] { "sun_idle_0", "moon_idle_0", "fever_idle_0" };
-    string[] BackgroundSpritename = new string[3] { "Normal", "Fever", "SuperFever" };
-
-    string[] ResultName = new string[2] { "new_record", "good_job" };
-
-    string selectedName = "select_0";
-
-    
     private void Load_Sprite()
     {
         atlas = Resources.Load<SpriteAtlas>("Art/Sprite/SpriteAtlas");
         atlas2 = Resources.Load<SpriteAtlas>("Art/Sprite/StartAtlas");
     }
 
-    public Sprite GetColorBlockSprite(Define.ColorBlock block, Define.ClickState state = Define.ClickState.NotClicked)
+    public Sprite Get_Color_Block_Sprite(Define.Block block, Define.ClickState state = Define.ClickState.NotClicked)
     {
-        Sprite s = atlas.GetSprite(ColorBlockSpriteName[3, 0]);
-        return atlas.GetSprite(ColorBlockSpriteName[(int)block, (int)state]); 
+        return atlas.GetSprite(Block_Sprite_Name[(int)block][(int)state]); 
     }
 
-    public Sprite GetSpecialBlockSprite(Define.SpecialBlock block)
+    public Sprite Get_Special_Block_Sprite(Define.Block block)
     {
-        return atlas.GetSprite(SpecialBlockSpriteName[(int)block]);
+        return atlas.GetSprite(Block_Sprite_Name[(int)block][0]);
     }
 
-    public Sprite GetSelectedBlockSprite()
+    public Sprite Get_Selected_Block_Sprite()
     {
-        return atlas.GetSprite(selectedName);
+        return atlas.GetSprite(selected_Name);
     }
 
-    public Sprite GetCharSprite(Define.GameState gameState)
+    public Sprite Get_Char_Sprite(Define.GameState gameState)
     {
-        return atlas.GetSprite(CharSpriteName[(int)gameState]);
+        return atlas.GetSprite(Char_Sprite_Name[(int)gameState]);
     }
 
-    public Sprite GetBackgroundSprite(Define.GameState gameState)
+    public Sprite Get_Background_Sprite(Define.GameState gameState)
     {
-        return atlas.GetSprite(BackgroundSpritename[(int)gameState]);
+        return atlas.GetSprite(Background_Sprite_Name[(int)gameState]);
     }
 
-    public Sprite GetGameResultSprite(Define.Result gameResult)
+    public Sprite Get_Game_Result_Sprite(Define.Result gameResult)
     {
-        return atlas2.GetSprite(ResultName[(int)gameResult]);
+        return atlas2.GetSprite(Result_Name[(int)gameResult]);
     }
     #endregion
 
     # region scriptableObject
-    Dictionary<Define.ColorBlock, Block_Data> color_block_data = new Dictionary<Define.ColorBlock, Block_Data>();
-    Dictionary<Define.SpecialBlock, Block_Data> special_block_data = new Dictionary<Define.SpecialBlock, Block_Data>();
+    Dictionary<Define.Block, Block_Data> block_datas = new Dictionary<Define.Block, Block_Data>();
 
-    public Block_Data GetColorBlockData(Define.ColorBlock block) { return color_block_data[block];}
-    public Block_Data GetSpecialBlockData(Define.SpecialBlock block) { return special_block_data[block]; }
+    public Block_Data Get_Block_Data(Define.Block block) { return block_datas[block];}
 
     private void Load_ScriptableObject()
     {
-        color_block_data[Define.ColorBlock.Red] = Resources.Load<Block_Data>("ScriptableObject/Block/Red");
-        color_block_data[Define.ColorBlock.Blue] = Resources.Load<Block_Data>("ScriptableObject/Block/Blue");
-        color_block_data[Define.ColorBlock.Yellow] = Resources.Load<Block_Data>("ScriptableObject/Block/Yellow");
-        color_block_data[Define.ColorBlock.Green] = Resources.Load<Block_Data>("ScriptableObject/Block/Green");
-        color_block_data[Define.ColorBlock.Orange] = Resources.Load<Block_Data>("ScriptableObject/Block/Orange");
-        color_block_data[Define.ColorBlock.Purple] = Resources.Load<Block_Data>("ScriptableObject/Block/Purple");
-        color_block_data[Define.ColorBlock.White] = Resources.Load<Block_Data>("ScriptableObject/Block/White");
-
-        special_block_data[Define.SpecialBlock.Rainbow] = Resources.Load<Block_Data>("ScriptableObject/SpecialBlock/Rainbow");
-        special_block_data[Define.SpecialBlock.Erase] = Resources.Load<Block_Data>("ScriptableObject/SpecialBlock/Erase");
-        special_block_data[Define.SpecialBlock.One] = Resources.Load<Block_Data>("ScriptableObject/SpecialBlock/One");
-        special_block_data[Define.SpecialBlock.Up] = Resources.Load<Block_Data>("ScriptableObject/SpecialBlock/Up");
-        special_block_data[Define.SpecialBlock.Bomb] = Resources.Load<Block_Data>("ScriptableObject/SpecialBlock/Bomb");
+        foreach (Define.Block block in Enum.GetValues(typeof(Define.Block)))
+            block_datas[block] = Resources.Load<Block_Data>("ScriptableObject/Block/" + block.ToString());
     }
     #endregion
 
     #region prefab
     GameObject block_prefab;
-    public GameObject GetBlockPrefab() { return block_prefab; }
+    public GameObject Get_Block_Prefab() { return block_prefab; }
 
     GameObject selectedFrame_prefab;
-    public GameObject GetSelectedFramePrefab() { return selectedFrame_prefab; }
+    public GameObject Get_Selected_Frame_Prefab() { return selectedFrame_prefab; }
     
     private void Load_Prefab()
     {
@@ -107,24 +94,15 @@ public class ResourceManager
     #endregion
 
     #region audio clip
-    AudioClip bgm;
-    AudioClip sfx_move;
-    AudioClip sfx_success;
-    AudioClip sfx_click;
-    AudioClip sfx_end;
-    public AudioClip GetBGM() { return bgm; }
-    public AudioClip GetSFX_Move() { return sfx_move; }
-    public AudioClip GetSFX_Success() { return sfx_success; }
-    public AudioClip GetSFX_Click() { return sfx_click; }
-    public AudioClip GetSFX_End() { return sfx_end; }
+    public Dictionary<Define.SFX, AudioClip> sfxAudioClips = new Dictionary<Define.SFX, AudioClip>();
+    public AudioClip bgm;
 
     private void Load_Audio()
     {
         bgm = Resources.Load<AudioClip>("Sound/BGM/Root - Silent Partner");
-        sfx_move = Resources.Load<AudioClip>("Sound/SFX/Move");
-        sfx_success = Resources.Load<AudioClip>("Sound/SFX/Success");
-        sfx_click = Resources.Load<AudioClip>("Sound/SFX/Click");
-        sfx_end = Resources.Load<AudioClip>("Sound/SFX/End");
+
+        foreach (Define.SFX sfx in Enum.GetValues(typeof(Define.SFX)))
+            sfxAudioClips[sfx] = Resources.Load<AudioClip>("Sound/SFX/" + sfx.ToString());
     }
     #endregion
 

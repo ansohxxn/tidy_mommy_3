@@ -6,7 +6,6 @@ using UnityEngine;
 public class Block_Data : ScriptableObject
 {
     public Define.BlockType blockType;
-    public Define.ColorBlock colorBlock_name;
-    public Define.SpecialBlock specialBlock_name;
+    public Define.Block block_name;
     public int score;
 }

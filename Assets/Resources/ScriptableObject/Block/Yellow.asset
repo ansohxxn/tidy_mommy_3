@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Yellow
   m_EditorClassIdentifier: 
   blockType: 0
-  colorBlock_name: 2
-  specialBlock_name: 0
+  block_name: 2
   score: 1000

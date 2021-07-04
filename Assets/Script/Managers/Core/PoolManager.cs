@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PoolManager 
 {
-    const int poolSize = 30;
-
     public GameObject Prefab { get; private set; }
     public Transform Root { get; set; }
 
@@ -13,11 +11,11 @@ public class PoolManager
 
     public void Init()
     {
-        Prefab = Managers.Resource.GetBlockPrefab();
+        Prefab = Managers.Resource.Get_Block_Prefab();
         Root = new GameObject().transform;
         Root.name = "@Pool_Root";
 
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < Define.POOL_SIZE; i++)
             Push(Create());
     }
 

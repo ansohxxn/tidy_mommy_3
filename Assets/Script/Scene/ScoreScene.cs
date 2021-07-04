@@ -16,8 +16,8 @@ public class ScoreScene : BaseScene
 
     protected override void Init()
     {
-        if (new_record == null) new_record = Managers.Resource.GetGameResultSprite(Define.Result.Win);
-        if (good_job == null) good_job = Managers.Resource.GetGameResultSprite(Define.Result.Lose);
+        if (new_record == null) new_record = Managers.Resource.Get_Game_Result_Sprite(Define.Result.Win);
+        if (good_job == null) good_job = Managers.Resource.Get_Game_Result_Sprite(Define.Result.Lose);
 
         scoreTxt.text = "0";
         bestScoreTxt.text = string.Format("{0:#,##0}", Managers.Data.bestScore);
@@ -30,7 +30,7 @@ public class ScoreScene : BaseScene
     {
         yield return Managers.Co.WaitSeconds(startDelay);
 
-        float target = (float)Managers.Game.score;
+        float target = (float)Managers.Game.total_score;
         float current = 0;
         float offset = (target - current) / duration;
         while (current < target)
@@ -47,26 +47,21 @@ public class ScoreScene : BaseScene
 
     private void SaveScore()
     {
-        if (Managers.Game.score > Managers.Data.bestScore)
+        if (Managers.Game.total_score > Managers.Data.bestScore)
         {
             ShowFloatingText(new_record);
-            Managers.Data.UpdateBestScore(Managers.Game.score);
+            Managers.Data.UpdateBestScore(Managers.Game.total_score);
         }
         else
             ShowFloatingText(good_job);
 
-        PlayEndSFX();
+        Managers.Audio.Play_SFX(Define.SFX.End);
     }
 
     private void ShowFloatingText(Sprite _sprite)
     {
         floatingText.gameObject.SetActive(true);
         floatingText.sprite = _sprite;
-    }
-
-    private void PlayEndSFX()
-    {
-        Managers.Audio.sfx_audioSource.PlayOneShot(Managers.Resource.GetSFX_End());
     }
 
     public override void Clear()

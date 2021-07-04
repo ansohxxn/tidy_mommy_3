@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,10 +67,8 @@ public class Managers : MonoBehaviour
 
     static void Generate_AudioSource()
     {
-        s_instance._audio.bgm_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
-        s_instance._audio.sfxMove_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
-        s_instance._audio.sfxSuccess_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
-        s_instance._audio.sfxClick_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
-        s_instance._audio.sfx_audioSource = s_instance.gameObject.AddComponent<AudioSource>();
+        s_instance._audio.bgmAudioSources = s_instance.gameObject.AddComponent<AudioSource>();
+        foreach (Define.SFX sfx in Enum.GetValues(typeof(Define.SFX)))
+            s_instance._audio.sfxAudioSources[sfx] = s_instance.gameObject.AddComponent<AudioSource>();
     }
 }

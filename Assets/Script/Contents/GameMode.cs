@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class GameMode : MonoBehaviour
 {
-    private const int to_feverMode = 5;
-    private const int to_superfeverMode = 10;
     private int feverCombo = 0;
-    private float superfever_time = 10.0f;
     private Coroutine co;
 
     [SerializeField] ComboText comboText;
@@ -44,7 +41,7 @@ public class GameMode : MonoBehaviour
         switch (Managers.Game.gameState)
         {
             case Define.GameState.Normal:
-                if (Managers.Game.combo >= to_feverMode)
+                if (Managers.Game.combo >= Define.COMBO_TO_FEVER_MODE)
                 {
                     // Normal -> Fever
                     Setting(Define.GameState.Fever);
@@ -60,15 +57,15 @@ public class GameMode : MonoBehaviour
                     Setting(Define.GameState.Normal);
                     feverCombo = 0;
                 }
-                if (feverCombo >= to_superfeverMode)
+                if (feverCombo >= Define.COMBO_TO_SUPER_FEVER_MODE)
                 {
                     // Fever -> SuperFever
                     Setting(Define.GameState.SuperFever);
                     co = StartCoroutine(SuperFever_Timer());
                     feverCombo = 0;
 
-                    board.Clear_ForSuperFever();
-                    board.BoardInit();
+                    board.Clear_Init_Board();
+                    board.Board_Init();
 
                     Show_StateText(Define.GameState.SuperFever);
                 }
@@ -91,15 +88,15 @@ public class GameMode : MonoBehaviour
     {
         Managers.Game.gameState = gameState;
         
-        char_spriteRenderer.sprite = Managers.Resource.GetCharSprite(gameState);
-        background_spriteRenderer.sprite = Managers.Resource.GetBackgroundSprite(gameState);
+        char_spriteRenderer.sprite = Managers.Resource.Get_Char_Sprite(gameState);
+        background_spriteRenderer.sprite = Managers.Resource.Get_Background_Sprite(gameState);
 
-        Managers.Audio.bgm_audioSource.pitch = Managers.Audio.bgmSpeed[(int)gameState];
+        Managers.Audio.Pitch_Setting(gameState);
     }
 
     IEnumerator SuperFever_Timer()
     {
-        yield return Managers.Co.WaitSeconds(superfever_time);
+        yield return Managers.Co.WaitSeconds(Define.SUPER_FEVER_TIME);
         Setting(Define.GameState.Fever);
     }
     

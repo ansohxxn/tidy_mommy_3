@@ -20,7 +20,7 @@ public class SelectedFrame : MonoBehaviour
     public void SetActive()
     {
         if (mySpriteRenderer.sprite == null)
-            mySpriteRenderer.sprite = Managers.Resource.GetSelectedBlockSprite();
+            mySpriteRenderer.sprite = Managers.Resource.Get_Selected_Block_Sprite();
         mySpriteRenderer.enabled = true;
     }
 
@@ -33,7 +33,10 @@ public class SelectedFrame : MonoBehaviour
     public void Setting(Block block, Transform blockpos)
     {
         if (block.blockdata.blockType == Define.BlockType.Color)
-            block.SetClickedStateSprite();
+        {
+            ColorBlockBuilder colorBlockBuilder = block.blockBuilder as ColorBlockBuilder;
+            if (colorBlockBuilder != null) colorBlockBuilder.Set_State_Sprite(block, Define.ClickState.Clicked);
+        }
         selectedBlock = block;
         myTransform.position = blockpos.position;
         SetActive();

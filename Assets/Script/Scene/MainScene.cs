@@ -11,13 +11,13 @@ public class MainScene : BaseScene
         Managers.Game.Init();
         Managers.Pool.Init();
 
-        Managers.Audio.bgm_audioSource.Play();
-        Managers.Audio.bgm_audioSource.pitch = Managers.Audio.bgmSpeed[(int)Define.GameState.Normal];
+        Managers.Audio.Play_BGM();
+        Managers.Audio.Pitch_Setting(Define.GameState.Normal);
     }
 
     public override void Clear()
     {
         Managers.Pool.Clear();
-        Managers.Audio.bgm_audioSource.Stop();
+        Managers.Audio.Stop_BGM();
     }
 }

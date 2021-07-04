@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Green
   m_EditorClassIdentifier: 
   blockType: 0
-  colorBlock_name: 3
-  specialBlock_name: 0
+  block_name: 3
   score: 1000

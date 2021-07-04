@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: White
   m_EditorClassIdentifier: 
   blockType: 0
-  colorBlock_name: 6
-  specialBlock_name: 0
+  block_name: 6
   score: 1000

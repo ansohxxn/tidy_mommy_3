@@ -11,13 +11,13 @@ public class Pos : MonoBehaviour
     public ParticleSystem[,] particlePos = new ParticleSystem[3, 10];
 
     SpriteRenderer background;
-    [HideInInspector] public Transform background_transform;
+    [HideInInspector] public Transform myTransform;
     [SerializeField] GameObject prefab;
 
     void Start()
     {
         background = GetComponent<SpriteRenderer>();
-        background_transform = background.GetComponent<Transform>();
+        myTransform = background.GetComponent<Transform>();
 
         width = background.bounds.size.x / background.transform.localScale.x;
         height = background.bounds.size.y / background.transform.localScale.y; ;
@@ -27,7 +27,7 @@ public class Pos : MonoBehaviour
         startPos = new Vector2(startX, startY);
 
         Managers.Game.selectedFrame.myTransform.position = startPos;
-        Managers.Game.selectedFrame.myTransform.SetParent(background_transform);
+        Managers.Game.selectedFrame.myTransform.SetParent(myTransform);
 
         for (int i = 0; i < 3; ++i)
         {
@@ -38,7 +38,7 @@ public class Pos : MonoBehaviour
 
                 GameObject go = Object.Instantiate(prefab);
                 blockPos[i, j] = go.transform;
-                blockPos[i, j].SetParent(background_transform);
+                blockPos[i, j].SetParent(myTransform);
 
                 Vector2 pos = new Vector2(x, y);
                 blockPos[i, j].localPosition = pos;
