@@ -25,7 +25,7 @@
 
 ## ☕ 포트폴리오 
 
-<https://www.notion.so/ansohxxn/_-_-6fe52a2dcef2409c8b4704b51f92a1af>
+<https://www.notion.so/ansohxxn/_-_-87f5b9e67c904e4e88c9c38b39d605e0>
 
 - 제가 이 프로젝트로 배우고 경험해보고 싶었던 부분은 다음과 같습니다.
   - 1️⃣ GC 를 줄이기.
