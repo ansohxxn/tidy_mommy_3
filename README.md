@@ -1,19 +1,13 @@
 # 💗엄마의 삼단정리💗
 > 추억의 게임 &lt;액션 퍼즐 패밀리>의 미니 게임 중 하나인 &lt;엄마의 삼당정리>를 모작한 안드로이드 모바일 게임입니다. 
 
-- [서론](#-서론)
-  - [플레이 영상 보러 가기!](#-플레이-영상-보러-가기)
-- [게임 로직](#-게임-로직)
-- [최적화 & 기술](#-최적화와-기술)
-
-
-![image](https://user-images.githubusercontent.com/42318591/117399805-4fffe100-af3c-11eb-8b68-f712c2314d69.png)
-
 ![image](https://user-images.githubusercontent.com/42318591/120061439-3fa0d900-c098-11eb-8236-b4690e44810c.png)
+
+![image](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cfdae9e2-53e6-4a16-a79b-20e6f9b23354/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210705%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210705T005524Z&X-Amz-Expires=86400&X-Amz-Signature=6168ba26911d71c00c1abfdb0a526f7c7d066156e2987c33ec13410326c4da01&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 
 ---
 
-## 📌 서론
+## ☕ 서론
 
 > 5/29 완성! 
 
@@ -25,11 +19,11 @@
 - *게임 로직 설명*  :  아래 파일을 참고해주세요 *😄*
 
 
-### ☕ 플레이 영상 보러 가기! (유튜브)
+## ☕ 플레이 영상 보러 가기! (유튜브)
 
 <https://youtu.be/VSaYdBk6jOU>
 
-### ☕ 포트폴리오 
+## ☕ 포트폴리오 
 
 <https://www.notion.so/ansohxxn/_-_-6fe52a2dcef2409c8b4704b51f92a1af>
 
@@ -37,19 +31,8 @@
   - 1️⃣ GC 를 줄이기.
   - 2️⃣ 모바일 게임임을 인지하고 최적화에 신경쓰기.
   - 3️⃣ 디자인 패턴을 활용하여 코드의 성능과 설계성을 높이기.
-- 위 포트폴리오 링크에 이와 같은 부분을 생각하며 적용한 기술 및 패턴들과 게임 씬 별로 주요 구현 내용을 자세히 기술하였습니다.  
+- 위 포트폴리오 링크에 이와 같은 부분을 생각하며 적용한 기술 및 패턴들, 게임 로직, 게임 씬 별로 주요 구현 내용을 자세히 기술하였습니다.  
 
 ---
-
-## 📌 게임 로직 
-
-> 3 개의 열 중 하나를 터치하여 이동할 블록을 선택하고, 이 상태에서 다른 열을 선택하여 블록을 이동시킬 수 있습니다.
-
-- 새 행이 스폰될 때 같은 색 블록이 세로로 3 개 모이는 일이 없게끔 하는 제한을 둔 상태에서 스폰할 블록 색상이 랜덤하게 선택 됨. 
-- 현재 레벨의 이하로 횟수로 블록을 이동시켜 제거했다면 콤보 + 1
-- 게임이 종료되면 모든 블록을 제거하고 점수에 반영합니다. 그리고 3초 후 점수를 계산하는 종료 씬으로 이동
-
-더 자세한 게임 로직 설명은 링크 참고해주세요! [엄마의삼단정리_게임로직.pdf](https://drive.google.com/file/d/18sYRIMU3FDSMJ50C0gquNv-tdvUKAz8_/view?usp=sharing)
-
 
 
