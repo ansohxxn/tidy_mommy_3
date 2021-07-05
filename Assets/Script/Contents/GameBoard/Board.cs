@@ -242,7 +242,7 @@ public class Board : MonoBehaviour
 
         Update_Combo(col, row);
         Calculate_Score();
-        bomb_gauge.SetBombGauge(ref canMakeBomb);
+        bomb_gauge.Set_BombGauge(ref canMakeBomb);
     }
 
     public void Clear_Init_Board()
@@ -251,7 +251,7 @@ public class Board : MonoBehaviour
 
         moveCount = 0;
         Calculate_Score();
-        bomb_gauge.SetBombGauge(ref canMakeBomb);
+        bomb_gauge.Set_BombGauge(ref canMakeBomb);
     }
 
     public void Show_Bomb_Seconds_Img(Vector2 pos)

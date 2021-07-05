@@ -23,10 +23,10 @@ public class ScoreScene : BaseScene
         bestScoreTxt.text = string.Format("{0:#,##0}", Managers.Data.bestScore);
         floatingText.gameObject.SetActive(false);
 
-        StartCoroutine(CountUpScore()); 
+        StartCoroutine(Count_Up_Score()); 
     }
 
-    IEnumerator CountUpScore()
+    IEnumerator Count_Up_Score()
     {
         yield return Managers.Co.WaitSeconds(startDelay);
 
@@ -49,16 +49,16 @@ public class ScoreScene : BaseScene
     {
         if (Managers.Game.total_score > Managers.Data.bestScore)
         {
-            ShowFloatingText(new_record);
+            Show_Floating_Text(new_record);
             Managers.Data.UpdateBestScore(Managers.Game.total_score);
         }
         else
-            ShowFloatingText(good_job);
+            Show_Floating_Text(good_job);
 
         Managers.Audio.Play_SFX(Define.SFX.End);
     }
 
-    private void ShowFloatingText(Sprite _sprite)
+    private void Show_Floating_Text(Sprite _sprite)
     {
         floatingText.gameObject.SetActive(true);
         floatingText.sprite = _sprite;

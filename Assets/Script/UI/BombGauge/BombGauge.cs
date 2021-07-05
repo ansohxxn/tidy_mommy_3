@@ -15,7 +15,7 @@ public class BombGauge : MonoBehaviour
         slider.value = 0;
     }
 
-    public void SetBombGauge(ref bool canMakeBomb)
+    public void Set_BombGauge(ref bool canMakeBomb)
     {
         slider.value += 1;
         if (slider.value == Define.MAX_BOMB)

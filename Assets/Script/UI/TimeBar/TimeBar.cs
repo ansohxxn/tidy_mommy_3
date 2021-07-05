@@ -13,7 +13,7 @@ public class TimeBar : MonoBehaviour
     void Start()
     {
         Init();
-        TimeUpdate();
+        Time_Update();
     }
 
     private void Init()
@@ -24,13 +24,13 @@ public class TimeBar : MonoBehaviour
         slider.value = Managers.Game.time;
     }
 
-    private void TimeUpdate()
+    private void Time_Update()
     {
-        StartCoroutine(TimeTextUpdate());
-        StartCoroutine(TimeSliderUpdate());
+        StartCoroutine(Time_Text_Update());
+        StartCoroutine(Time_Slider_Update());
     }
 
-    private IEnumerator TimeTextUpdate()
+    private IEnumerator Time_Text_Update()
     {
         while (Managers.Game.time > 0f && !Managers.Game.isGameOver)
         {
@@ -44,7 +44,7 @@ public class TimeBar : MonoBehaviour
         board.GameOver();
     }
 
-    private IEnumerator TimeSliderUpdate()
+    private IEnumerator Time_Slider_Update()
     {
         while (slider.value <= 60 && !Managers.Game.isGameOver)
         {
